@@ -140,7 +140,7 @@ main:
 	loadn R2, #256   			; cor branca!
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
-	Loadn R0, #700			
+	Loadn R0, #1020			
 	store posNave, R0		; Zera Posicao Atual da Nave
 	store posAntNave, R0	; Zera Posicao Anterior da Nave
 	
@@ -157,17 +157,17 @@ main:
 
 	Loop:
 	
-		loadn R1, #3    ;padrao eh 10
+		loadn R1, #2    ;padrao eh 10
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/10)==0
 		ceq MoveNave	; Chama Rotina de movimentacao da Nave
 	
-		loadn R1, #4   ;padrao eh 30
+		loadn R1, #10   ;padrao eh 30
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/30)==0
 		ceq MoveAlien	; Chama Rotina de movimentacao do Alien
 	
-		loadn R1, #2	;padrao eh 2
+		loadn R1, #1	;padrao eh 2
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/2)==0
 		ceq MoveTiro	; Chama Rotina de movimentacao do Tiro
@@ -617,10 +617,11 @@ MoveTiro_RecalculaPos:
 	jeq MoveTiro_RecalculaPos_Boom
 	
 	loadn R1, #40		; Testa condicoes de Contorno 
-	loadn R2, #39
+	load R2, posTiro
 	mod R1, R0, R1		
 	cmp R1, R2			; Se tiro chegou na ultima linha
 	jne MoveTiro_RecalculaPos_Fim
+	
 	call MoveTiro_Apaga
 	loadn R0, #0
 	store FlagTiro, R0	; Zera FlagTiro

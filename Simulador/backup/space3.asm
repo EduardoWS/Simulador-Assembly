@@ -147,7 +147,7 @@ main:
 	loadn R2, #256   			; cor branca!
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
-	Loadn R0, #700			
+	loadn R0, #1020			
 	store posNave, R0		; Zera Posicao Atual da Nave
 	store posAntNave, R0	; Zera Posicao Anterior da Nave
 	
@@ -160,6 +160,7 @@ main:
 	;store posAntAlien, R0	; Zera Posicao Anterior do Alien
 	
 	loadn R0, #100
+	store FlagTiro2, R0
 	store posNave2, R0
 	store posAntNave2, R0
 	
@@ -168,7 +169,7 @@ main:
 
 	Loop:
 	
-		loadn R1, #3    ;padrao eh 10
+		loadn R1, #2    ;padrao eh 10
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/10)==0
 		ceq MoveNave	; Chama Rotina de movimentacao da Nave
@@ -184,13 +185,13 @@ main:
 		;cmp R1, R2		; if (mod(c/30)==0
 		;ceq MoveAlien	; Chama Rotina de movimentacao do Alien
 	
-		loadn R1, #2	;padrao eh 2
+		loadn R1, #1	;padrao eh 2
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/2)==0
 		ceq MoveTiro	; Chama Rotina de movimentacao do Tiro
 		
 		
-		loadn R1, #2	;padrao eh 2
+		loadn R1, #1	;padrao eh 2
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/2)==0
 		ceq MoveTiro2	; Chama Rotina de movimentacao do Tiro
@@ -234,7 +235,7 @@ MoveNave2:
 	push r0
 	push r1
 	
-	call MoveNave2_RecalculaPos		; Recalcula Posicao da Nave
+	call MoveNave_RecalculaPos		; Recalcula Posicao da Nave
 
 ; So' Apaga e Redesenha se (pos != posAnt)
 ;	If (posNave != posAntNave)	{	
@@ -319,40 +320,64 @@ MoveNave_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressio
 	push R1
 	push R2
 	push R3
+	push R4
 
 	load R0, posNave
+	load R4, posNave2
 	
 	inchar R1				; Le Teclado para controlar a Nave
 	loadn R2, #'a'
 	cmp R1, R2
 	jeq MoveNave_RecalculaPos_A
 	
+	loadn R2, #'j'
+	cmp R1, R2
+	jeq MoveNave2_RecalculaPos_A
+	
 	loadn R2, #'d'
 	cmp R1, R2
 	jeq MoveNave_RecalculaPos_D
+	
+	loadn R2, #'l'
+	cmp R1, R2
+	jeq MoveNave2_RecalculaPos_D
 		
 	loadn R2, #'w'
 	cmp R1, R2
 	jeq MoveNave_RecalculaPos_W
+	
+	loadn R2, #'i'
+	cmp R1, R2
+	jeq MoveNave2_RecalculaPos_W
 		
 	loadn R2, #'s'
 	cmp R1, R2
 	jeq MoveNave_RecalculaPos_S
 	
+	loadn R2, #'k'
+	cmp R1, R2
+	jeq MoveNave2_RecalculaPos_S
+	
 	loadn R2, #' '
 	cmp R1, R2
 	jeq MoveNave_RecalculaPos_Tiro
 	
+	loadn R2, #'/'
+	cmp R1, R2
+	jeq MoveNave2_RecalculaPos_Tiro
+	
 	
   MoveNave_RecalculaPos_Fim:	; Se nao for nenhuma tecla valida, vai embora
 	store posNave, R0
+	store posNave2, R4
+	pop R4
 	pop R3
 	pop R2
 	pop R1
 	pop R0
 	rts
 
-  MoveNave_RecalculaPos_A:	; Move Nave para Esquerda
+MoveNave_RecalculaPos_A:	; Move Nave para Esquerda
 	loadn R1, #40
 	loadn R2, #0
 	mod R1, R0, R1		; Testa condicoes de Contorno 
@@ -360,8 +385,18 @@ MoveNave_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressio
 	jeq MoveNave_RecalculaPos_Fim
 	dec R0	; pos = pos -1
 	jmp MoveNave_RecalculaPos_Fim
-		
-  MoveNave_RecalculaPos_D:	; Move Nave para Direita	
+
+MoveNave2_RecalculaPos_A:	; Move Nave para Esquerda
+	loadn R1, #40
+	loadn R2, #0
+	mod R1, R4, R1		; Testa condicoes de Contorno 
+	cmp R1, R2
+	jeq MoveNave_RecalculaPos_Fim
+	dec R4	; pos = pos -1
+	jmp MoveNave_RecalculaPos_Fim
+
+;------------------
+MoveNave_RecalculaPos_D:	; Move Nave para Direita	
 	loadn R1, #40
 	loadn R2, #39
 	mod R1, R0, R1		; Testa condicoes de Contorno 
@@ -370,25 +405,58 @@ MoveNave_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressio
 	inc R0	; pos = pos + 1
 	jmp MoveNave_RecalculaPos_Fim
 	
-  MoveNave_RecalculaPos_W:	; Move Nave para Cima
+MoveNave2_RecalculaPos_D:	; Move Nave para Direita	
+	loadn R1, #40
+	loadn R2, #39
+	mod R1, R4, R1		; Testa condicoes de Contorno 
+	cmp R1, R2
+	jeq MoveNave_RecalculaPos_Fim
+	inc R4	; pos = pos + 1
+	jmp MoveNave_RecalculaPos_Fim
+
+;------------------
+MoveNave_RecalculaPos_W:	; Move Nave para Cima
 	loadn R1, #40
 	cmp R0, R1		; Testa condicoes de Contorno 
 	jle MoveNave_RecalculaPos_Fim
 	sub R0, R0, R1	; pos = pos - 40
 	jmp MoveNave_RecalculaPos_Fim
+	
+MoveNave2_RecalculaPos_W:	; Move Nave para Cima
+	loadn R1, #40
+	cmp R4, R1		; Testa condicoes de Contorno 
+	jle MoveNave_RecalculaPos_Fim
+	sub R4, R4, R1	; pos = pos - 40
+	jmp MoveNave_RecalculaPos_Fim
 
-  MoveNave_RecalculaPos_S:	; Move Nave para Baixo
+;------------------
+MoveNave_RecalculaPos_S:	; Move Nave para Baixo
 	loadn R1, #1159
 	cmp R0, R1		; Testa condicoes de Contorno 
 	jgr MoveNave_RecalculaPos_Fim
 	loadn R1, #40
 	add R0, R0, R1	; pos = pos + 40
 	jmp MoveNave_RecalculaPos_Fim	
-	
-  MoveNave_RecalculaPos_Tiro:	
+
+MoveNave2_RecalculaPos_S:	; Move Nave para Baixo
+	loadn R1, #1159
+	cmp R4, R1		; Testa condicoes de Contorno 
+	jgr MoveNave_RecalculaPos_Fim
+	loadn R1, #40
+	add R4, R4, R1	; pos = pos + 40
+	jmp MoveNave_RecalculaPos_Fim
+
+;------------------
+MoveNave_RecalculaPos_Tiro:	
 	loadn R1, #1			; Se Atirou:
 	store FlagTiro, R1		; FlagTiro = 1
 	store posTiro, R0		; posTiro = posNave
+	jmp MoveNave_RecalculaPos_Fim	
+
+MoveNave2_RecalculaPos_Tiro:	
+	loadn R1, #1			; Se Atirou:
+	store FlagTiro2, R1		; FlagTiro = 1
+	store posTiro2, R4		; posTiro = posNave
 	jmp MoveNave_RecalculaPos_Fim	
 	
 	
@@ -397,83 +465,7 @@ MoveNave_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressio
 	
 ;----------------------------------
 
-MoveNave2_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressionadas
-	push R0
-	push R1
-	push R2
-	push R3
 
-	load R0, posNave2
-	
-	inchar R1				; Le Teclado para controlar a Nave
-	loadn R2, #'j'
-	cmp R1, R2
-	jeq MoveNave2_RecalculaPos_A
-	
-	loadn R2, #'l'
-	cmp R1, R2
-	jeq MoveNave2_RecalculaPos_D
-		
-	loadn R2, #'i'
-	cmp R1, R2
-	jeq MoveNave2_RecalculaPos_W
-		
-	loadn R2, #'k'
-	cmp R1, R2
-	jeq MoveNave2_RecalculaPos_S
-	
-	loadn R2, #'/'
-	cmp R1, R2
-	jeq MoveNave2_RecalculaPos_Tiro
-	
-  MoveNave2_RecalculaPos_Fim:	; Se nao for nenhuma tecla valida, vai embora
-	store posNave2, R0
-	pop R3
-	pop R2
-	pop R1
-	pop R0
-	rts
-
-  MoveNave2_RecalculaPos_A:	; Move Nave para Esquerda
-	loadn R1, #40
-	loadn R2, #0
-	mod R1, R0, R1		; Testa condicoes de Contorno 
-	cmp R1, R2
-	jeq MoveNave2_RecalculaPos_Fim
-	dec R0	; pos = pos -1
-	jmp MoveNave2_RecalculaPos_Fim
-		
-  MoveNave2_RecalculaPos_D:	; Move Nave para Direita	
-	loadn R1, #40
-	loadn R2, #39
-	mod R1, R0, R1		; Testa condicoes de Contorno 
-	cmp R1, R2
-	jeq MoveNave2_RecalculaPos_Fim
-	inc R0	; pos = pos + 1
-	jmp MoveNave2_RecalculaPos_Fim
-	
-  MoveNave2_RecalculaPos_W:	; Move Nave para Cima
-	loadn R1, #40
-	cmp R0, R1		; Testa condicoes de Contorno 
-	jle MoveNave2_RecalculaPos_Fim
-	sub R0, R0, R1	; pos = pos - 40
-	jmp MoveNave2_RecalculaPos_Fim
-
-  MoveNave2_RecalculaPos_S:	; Move Nave para Baixo
-	loadn R1, #1159
-	cmp R0, R1		; Testa condicoes de Contorno 
-	jgr MoveNave2_RecalculaPos_Fim
-	loadn R1, #40
-	add R0, R0, R1	; pos = pos + 40
-	jmp MoveNave2_RecalculaPos_Fim	
-	
-  MoveNave2_RecalculaPos_Tiro:	
-	loadn R1, #1			; Se Atirou:
-	store FlagTiro2, R1		; FlagTiro = 1
-	store posTiro2, R0		; posTiro = posNave
-	jmp MoveNave2_RecalculaPos_Fim	
-
-;----------------------------------
 MoveNave_Desenha:	; Desenha caractere da Nave
 	push R0
 	push R1
@@ -533,7 +525,8 @@ MoveTiro:
 	jeq MoveTiro_Skip
 		call MoveTiro_Apaga
 		call MoveTiro_Desenha		;}
-  MoveTiro_Skip:
+		
+MoveTiro_Skip:
 	
 	pop r1
 	pop r0
@@ -656,8 +649,8 @@ MoveTiro_RecalculaPos:
 	push R0
 	push R1
 	push R2
-	
 	push R3
+	
 	
 	load R1, FlagTiro	; Se Atirou, movimenta o tiro!
 	loadn R2, #1
@@ -670,8 +663,9 @@ MoveTiro_RecalculaPos:
 	jeq MoveTiro_RecalculaPos_Boom
 	
 	loadn R1, #40		; Testa condicoes de Contorno 
-	loadn R2, #39
-	mod R1, R0, R1		
+	load R2, posTiro
+	
+	mod R1, R0, R1    ;R1 = R0 % 40
 	cmp R1, R2			; Se tiro chegou na ultima linha
 	jne MoveTiro_RecalculaPos_Fim
 	call MoveTiro_Apaga
@@ -691,8 +685,8 @@ MoveTiro_RecalculaPos:
 	store posTiro, R0
 	
   MoveTiro_RecalculaPos_Fim2:	
-  	pop R3
   	
+  	pop R3
 	pop R2
 	pop R1
 	pop R0
@@ -750,8 +744,8 @@ MoveTiro2_RecalculaPos:
 	push R0
 	push R1
 	push R2
-	
 	push R3
+	push R4
 	
 	load R1, FlagTiro2	; Se Atirou, movimenta o tiro!
 	loadn R2, #1
@@ -763,11 +757,15 @@ MoveTiro2_RecalculaPos:
 	cmp R0, R1			; IF posTiro == posAlien  BOOM!!
 	jeq MoveTiro2_RecalculaPos_Boom
 	
-	loadn R1, #40		; Testa condicoes de Contorno 
-	loadn R2, #39
-	mod R1, R0, R1		
+	loadn R1, #1160		; Testa condicoes de Contorno 
+	load R2, posTiro2
+	mod R1, R0, R1
+	loadn R4, #1160
+	add R1, R1, R4		
 	cmp R1, R2			; Se tiro chegou na ultima linha
 	jne MoveTiro2_RecalculaPos_Fim
+	
+	
 	call MoveTiro2_Apaga
 	loadn R0, #0
 	store FlagTiro2, R0	; Zera FlagTiro
@@ -785,8 +783,8 @@ MoveTiro2_RecalculaPos:
 	store posTiro2, R0
 	
   MoveTiro2_RecalculaPos_Fim2:	
+  	pop R4
   	pop R3
-  	
 	pop R2
 	pop R1
 	pop R0
@@ -867,7 +865,7 @@ MoveTiro2_Desenha:
 	push R2
 	
 	loadn R2, #2304
-	loadn R1, #'*'	; Tiro
+	loadn R1, #'|'	; Tiro
 	add R1, R1, R2
 	load R0, posTiro2
 	outchar R1, R0

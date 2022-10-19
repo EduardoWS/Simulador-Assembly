@@ -140,7 +140,7 @@ main:
 	loadn R2, #256   			; cor branca!
 	call ImprimeTela2   		;  Rotina de Impresao de Cenario na Tela Inteira
 
-	Loadn R0, #700			
+	Loadn R0, #1020			
 	store posNave, R0		; Zera Posicao Atual da Nave
 	store posAntNave, R0	; Zera Posicao Anterior da Nave
 	
@@ -157,7 +157,7 @@ main:
 
 	Loop:
 	
-		loadn R1, #3    ;padrao eh 10
+		loadn R1, #2    ;padrao eh 10
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/10)==0
 		ceq MoveNave	; Chama Rotina de movimentacao da Nave
@@ -621,6 +621,7 @@ MoveTiro_RecalculaPos:
 	mod R1, R0, R1		
 	cmp R1, R2			; Se tiro chegou na ultima linha
 	jne MoveTiro_RecalculaPos_Fim
+	
 	call MoveTiro_Apaga
 	loadn R0, #0
 	store FlagTiro, R0	; Zera FlagTiro
