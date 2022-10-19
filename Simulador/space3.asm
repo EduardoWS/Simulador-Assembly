@@ -166,7 +166,10 @@ main:
 	
 	Loadn R0, #0			; Contador para os Mods	= 0
 	loadn R2, #0			; Para verificar se (mod(c/10)==0
-
+	
+	call MoveNave_Desenha
+	call MoveNave2_Desenha
+	
 	Loop:
 	
 		loadn R1, #2    ;padrao eh 10
