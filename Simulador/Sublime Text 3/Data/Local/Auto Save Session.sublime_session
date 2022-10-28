@@ -210,16 +210,88 @@
 				"selected_items":
 				[
 					[
+						"bre",
+						"Break"
+					],
+					[
+						"move",
+						"MoveNave_Desenha"
+					],
+					[
+						"fun",
+						"funcao_loop	abc"
+					],
+					[
+						"Loop",
+						"LoopTiros	abc"
+					],
+					[
+						"MoveTiro",
+						"MoveTiro_Vetor	abc"
+					],
+					[
+						"pos",
+						"posAntTiro	abc"
+					],
+					[
+						"mo",
+						"MoveTiro_Vetor"
+					],
+					[
+						"fla",
+						"FlagTiros"
+					],
+					[
+						"loo",
+						"LoopTiros"
+					],
+					[
+						"Fla",
+						"FlagTiros	abc"
+					],
+					[
+						"MoveTiro_",
+						"MoveTiro_Vet	abc"
+					],
+					[
+						"MoveNave2_",
+						"MoveNave2_Desenha	abc"
+					],
+					[
+						"Move",
+						"MoveNave2	abc"
+					],
+					[
+						"vet",
+						"vetTiro	abc"
+					],
+					[
+						"Fl",
+						"FlagTiro2	abc"
+					],
+					[
+						"posNa",
+						"posNave2	abc"
+					],
+					[
+						"Flag",
+						"FlagAst	abc"
+					],
+					[
+						"posAntA",
+						"posAntAst	abc"
+					],
+					[
+						"posAnt",
+						"posAntAst	abc"
+					],
+					[
 						"posTir",
 						"posTiro2	abc"
 					],
 					[
 						"po",
 						"posTiro	abc"
-					],
-					[
-						"pos",
-						"posAntTiro	abc"
 					],
 					[
 						"linha",
@@ -248,10 +320,6 @@
 					[
 						"posAn",
 						"posAntNave2	abc"
-					],
-					[
-						"posAnt",
-						"posAntNave	abc"
 					],
 					[
 						"digL",
@@ -293,15 +361,15 @@
 					"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space2.asm",
 					"settings":
 					{
-						"buffer_size": 33555,
+						"buffer_size": 34588,
 						"line_ending": "Windows"
 					}
 				},
 				{
-					"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space3.asm",
+					"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space22.asm",
 					"settings":
 					{
-						"buffer_size": 36294,
+						"buffer_size": 34334,
 						"line_ending": "Windows"
 					}
 				}
@@ -338,6 +406,11 @@
 			},
 			"file_history":
 			[
+				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space3.asm",
+				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space2.1.mif",
+				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space2.1.asm",
+				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/backup/space2.asm",
+				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space2.asm",
 				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/pacman.asm",
 				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/Versao_05_2013/Exemplos/pacman.asm",
 				"/D/Simulador/Hello4.asm",
@@ -378,6 +451,8 @@
 				"case_sensitive": false,
 				"find_history":
 				[
+					"store posAntTiro",
+					"MoveAst",
 					"FlagTiro",
 					"0",
 					"r*",
@@ -417,8 +492,8 @@
 								"selection":
 								[
 									[
-										1475,
-										1475
+										318,
+										318
 									]
 								],
 								"settings":
@@ -427,10 +502,10 @@
 									"translate_tabs_to_spaces": false
 								},
 								"translation.x": 0.0,
-								"translation.y": 0.0,
+								"translation.y": 918.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 4,
+							"stack_index": 2,
 							"type": "text"
 						},
 						{
@@ -456,10 +531,10 @@
 									"translate_tabs_to_spaces": false
 								},
 								"translation.x": 0.0,
-								"translation.y": 10177.0,
+								"translation.y": 1615.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 2,
+							"stack_index": 3,
 							"type": "text"
 						},
 						{
@@ -488,7 +563,7 @@
 								"translation.y": 10986.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 3,
+							"stack_index": 4,
 							"type": "text"
 						},
 						{
@@ -497,15 +572,15 @@
 							"semi_transient": false,
 							"settings":
 							{
-								"buffer_size": 33555,
+								"buffer_size": 34588,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										14542,
-										14542
+										3191,
+										3191
 									]
 								],
 								"settings":
@@ -514,7 +589,7 @@
 									"translate_tabs_to_spaces": false
 								},
 								"translation.x": 0.0,
-								"translation.y": 10962.0,
+								"translation.y": 3178.0,
 								"zoom_level": 1.0
 							},
 							"stack_index": 1,
@@ -522,19 +597,19 @@
 						},
 						{
 							"buffer": 4,
-							"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space3.asm",
+							"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space22.asm",
 							"semi_transient": false,
 							"settings":
 							{
-								"buffer_size": 36294,
+								"buffer_size": 34334,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										17052,
-										17052
+										4509,
+										4509
 									]
 								],
 								"settings":
@@ -543,7 +618,7 @@
 									"translate_tabs_to_spaces": false
 								},
 								"translation.x": 0.0,
-								"translation.y": 13517.0,
+								"translation.y": 2592.0,
 								"zoom_level": 1.0
 							},
 							"stack_index": 0,
@@ -585,13 +660,13 @@
 			"menu_visible": true,
 			"output.exec":
 			{
-				"height": 118.0
+				"height": 75.0
 			},
 			"output.find_results":
 			{
 				"height": 0.0
 			},
-			"position": "0,2,3,-32000,-32000,-1,-1,900,0,0,1600",
+			"position": "0,2,3,-1,-1,-1,-1,903,-8,3,1592",
 			"project": "",
 			"replace":
 			{

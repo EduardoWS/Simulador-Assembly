@@ -115,8 +115,12 @@ Rand : var #30			; Tabela de nr. Randomicos entre 0 - 7
 	static Rand + #28, #6
 	static Rand + #29, #0
 
+vetTiro: var #3
+	static vetTiro + #0, #1200
+	static vetTiro + #1, #1200
+	static vetTiro + #2, #1200
 
-
+FlagTiros: var #1
 
 
 
@@ -144,7 +148,9 @@ main:
 	store posNave, R0		; Zera Posicao Atual da Nave
 	store posAntNave, R0	; Zera Posicao Anterior da Nave
 	
+	loadn r0, #0
 	store FlagTiro, R0		; Zera o Flag para marcar que ainda nao Atirou!
+	store FlagTiros, R0
 	store posTiro, R0		; Zera Posicao Atual do Tiro
 	store posAntTiro, R0	; Zera Posicao Anterior do Tiro
 	
@@ -154,7 +160,9 @@ main:
 	
 	Loadn R0, #0			; Contador para os Mods	= 0
 	loadn R2, #0			; Para verificar se (mod(c/10)==0
-
+	
+	call MoveNave_Desenha
+	
 	Loop:
 	
 		loadn R1, #2    ;padrao eh 10
@@ -166,12 +174,35 @@ main:
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/30)==0
 		ceq MoveAlien	; Chama Rotina de movimentacao do Alien
-	
+		
+		loadn r6, #0
+		store FlagTiros, r6
 		loadn R1, #2	;padrao eh 2
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/2)==0
 		ceq MoveTiro	; Chama Rotina de movimentacao do Tiro
-	
+		
+		
+		loadn r6, #0
+		loadn r3, #1200
+		loadn r4, #vetTiro
+		
+		LoopTiros:
+			
+			loadi r5, r4
+			cmp r5, r3
+			jne Atira
+			inc r6
+			inc r4
+			jmp LoopTiros
+			
+			Atira:
+				store FlagTiros, r6
+				loadn R1, #2	;padrao eh 2
+				mod R1, R0, R1
+				cmp R1, R2		; if (mod(c/2)==0
+				ceq MoveTiro	; Chama Rotina de movimentacao do Tiro
+		
 		call Delay
 		inc R0 	;c++
 		jmp Loop
@@ -533,8 +564,24 @@ MoveAlien_Desenha:
 MoveTiro:
 	push r0
 	push r1
+	push r2
+	push r3
+	push r4
 	
-	call MoveTiro_RecalculaPos
+	load r0, FlagTiros
+	loadn r4, #0
+	cmp r0, r4
+	jeq MoveTiro_Vetor
+	
+	
+	loadn r1, #vetTiro
+	add r1, r1, r0
+	loadi r2, r1    ;r2 = vet[flagtiros]
+	;store posTiro, r2
+	store posAntTiro, r2
+		
+	MoveTiro_Vetor:
+		call MoveTiro_RecalculaPos
 
 ; So' Apaga e Redezenha se (pos != posAnt)
 ;	If (pos != posAnt)	{	
@@ -544,8 +591,11 @@ MoveTiro:
 	jeq MoveTiro_Skip
 		call MoveTiro_Apaga
 		call MoveTiro_Desenha		;}
-  MoveTiro_Skip:
+MoveTiro_Skip:
 	
+	pop r4
+	pop r3
+	pop r2
 	pop r1
 	pop r0
 	rts
@@ -594,7 +644,6 @@ MoveTiro_Apaga:
 	rts
 ;----------------------------------	
 	
-	
 ; if TiroFlag = 1
 ;	posTiro++
 ;	
@@ -627,6 +676,11 @@ MoveTiro_RecalculaPos:
 	store FlagTiro, R0	; Zera FlagTiro
 	store posTiro, R0	; Zera e iguala posTiro e posAntTiro
 	store posAntTiro, R0
+	loadn r0, #1200
+	loadn r1, #vetTiro
+	load r2, FlagTiros
+	add r1, r2, r1
+	storei r0, r1
 	jmp MoveTiro_RecalculaPos_Fim2	
 	
   MoveTiro_RecalculaPos_Fim:
@@ -697,12 +751,28 @@ MoveTiro_Desenha:
 	push R1
 	push R2
 	
+	push R3
+	push R4
+	
 	loadn R2, #1536
 	loadn R1, #'|'	; Tiro
 	add R1, R1, R2
 	load R0, posTiro
 	outchar R1, R0
 	store posAntTiro, R0
+	
+	loadn r1, #vetTiro
+	load r2, FlagTiros
+	add r1, r1, r2
+	;loadi r4, r1
+	storei r1, r0
+	
+	
+	
+	
+	
+	pop R4
+	pop R3
 	
 	pop R2
 	pop R1
