@@ -1526,12 +1526,12 @@ main2:
 	call MoveNave_Desenha
 	call MoveNave2_Desenha
 	
-	Loop:
+	Loop2:
 	
 		loadn R1, #1    ;padrao eh 10
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/10)==0
-		ceq MoveNave	; Chama Rotina de movimentacao da Nave
+		ceq MoveNave_Multi	; Chama Rotina de movimentacao da Nave
 		
 		
 		loadn R1, #1    ;padrao eh 10
@@ -1542,7 +1542,7 @@ main2:
 		loadn R1, #1	;padrao eh 2
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/2)==0
-		ceq MoveTiro	; Chama Rotina de movimentacao do Tiro
+		ceq MoveTiro_Multi	; Chama Rotina de movimentacao do Tiro
 		
 		
 		loadn R1, #1	;padrao eh 2
@@ -1552,7 +1552,7 @@ main2:
 	
 		call Delay
 		inc R0 	;c++
-		jmp Loop
+		jmp Loop2
 
 
 
@@ -1610,6 +1610,28 @@ MoveNave:
 	pop r1
 	pop r0
 	rts
+	
+
+MoveNave_Multi:
+	push r0
+	push r1
+	
+	call MoveNave_RecalculaPos_Multi		; Recalcula Posicao da Nave
+
+; So' Apaga e Redesenha se (pos != posAnt)
+;	If (posNave != posAntNave)	{	
+	load r0, posNave
+	load r1, posAntNave
+	cmp r0, r1
+	jeq MoveNave_Skip
+		call MoveNave_Apaga
+		call MoveNave_Desenha		;}
+MoveNave_Skip:
+	
+	pop r1
+	pop r0
+	rts
+	
 	
 ;------------------------------
 MoveNave2:
@@ -2181,6 +2203,28 @@ MoveTiro:
 	pop r0
 	rts
 
+
+;---------------------
+MoveTiro_Multi:
+	push r0
+	push r1
+	
+	call MoveTiro_RecalculaPos_Multi
+
+; So' Apaga e Redezenha se (pos != posAnt)
+;	If (pos != posAnt)	{	
+	load r0, posTiro
+	load r1, posAntTiro
+	cmp r0, r1
+	jeq MoveTiro_Skip
+		call MoveTiro_Apaga
+		call MoveTiro_Desenha		;}
+  MoveTiro_Skip:
+	
+	pop r1
+	pop r0
+	rts
+
 ;--------------------------------
 
 MoveTiro2:
@@ -2386,6 +2430,101 @@ MoveTiro_RecalculaPos:
 	;call ApagaTela
 	;halt
 
+
+;-------------------------------
+MoveTiro_RecalculaPos_Multi:
+	push R0
+	push R1
+	push R2
+	push R3
+	
+	
+	load R1, FlagTiro	; Se Atirou, movimenta o tiro!
+	loadn R2, #1
+	cmp R1, R2			; If FlagTiro == 1  Movimenta o Tiro
+	jne MoveTiro_RecalculaPos_Fim2_Multi	; Se nao vai embora!
+	
+	load R0, posTiro	; TEsta se o Tiro Pegou no Alien
+	load R1, posAntNave2
+	cmp R0, R1			; IF posTiro == posAlien  BOOM!!
+	jeq MoveTiro_RecalculaPos_Boom_Multi
+	
+	loadn R1, #40		; Testa condicoes de Contorno 
+	load R2, posTiro
+	
+	mod R1, R0, R1    ;R1 = R0 % 40
+	cmp R1, R2			; Se tiro chegou na ultima linha
+	jne MoveTiro_RecalculaPos_Fim_Multi
+	call MoveTiro_Apaga
+	loadn R0, #0
+	store FlagTiro, R0	; Zera FlagTiro
+	store posTiro, R0	; Zera e iguala posTiro e posAntTiro
+	store posAntTiro, R0
+	jmp MoveTiro_RecalculaPos_Fim2_Multi	
+	
+  MoveTiro_RecalculaPos_Fim_Multi:
+	;inc R0
+	
+	loadn R3, #40
+	sub R0, R0, R3
+	;add R0, R3, R0
+	
+	store posTiro, R0
+	
+  MoveTiro_RecalculaPos_Fim2_Multi:	
+  	
+  	pop R3
+	pop R2
+	pop R1
+	pop R0
+	rts
+
+  MoveTiro_RecalculaPos_Boom_Multi:	
+	; Limpa a Tela !!
+  	loadn R1, #tela0Linha0	; Endereco onde comeca a primeira linha do cenario!!
+	loadn R2, #0  			; cor branca!
+	call ImprimeTela   		;  Rotina de Impresao de Cenario na Tela Inteira
+  
+	;imprime Voce Venceu !!!
+
+	loadn r0, #523
+	loadn r1, #Msn5
+	loadn r2, #0
+	call ImprimeStr
+	
+	;imprime quer jogar novamente
+	loadn r0, #605
+	loadn r1, #Msn1
+	loadn r2, #0
+	call ImprimeStr
+
+	MoveTiro_RecalculaPos_Boom_Loop_Multi:	
+	call DigLetra
+	loadn r0, #'n'
+	load r1, Letra
+	cmp r0, r1				; tecla == 'n' ?
+	jeq MoveTiro_RecalculaPos_Boom_FimJogo_Multi	; tecla e' 'n'
+	
+	loadn r0, #'s'
+	cmp r0, r1				; tecla == 's' ?
+	jne MoveTiro_RecalculaPos_Boom_Loop_Multi	; tecla nao e' 's'
+	
+	
+	
+	; Se quiser jogar novamente...
+	call ApagaTela
+	
+	pop r2
+	pop r1
+	pop r0
+
+	pop r0	; Da um Pop a mais para acertar o ponteiro da pilha, pois nao vai dar o RTS !!
+	jmp main2
+
+ MoveTiro_RecalculaPos_Boom_FimJogo_Multi:
+	jmp menu
+
+
 ;----------------------------------
 
 MoveTiro2_RecalculaPos:
@@ -2477,7 +2616,7 @@ MoveTiro2_RecalculaPos:
 	pop r0
 
 	pop r0	; Da um Pop a mais para acertar o ponteiro da pilha, pois nao vai dar o RTS !!
-	jmp main
+	jmp main2
 
  MoveTiro2_RecalculaPos_Boom_FimJogo:
 	jmp menu
