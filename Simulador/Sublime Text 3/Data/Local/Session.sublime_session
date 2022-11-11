@@ -369,7 +369,7 @@
 					"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space22.asm",
 					"settings":
 					{
-						"buffer_size": 34279,
+						"buffer_size": 34334,
 						"line_ending": "Windows"
 					}
 				}
@@ -476,7 +476,7 @@
 			"groups":
 			[
 				{
-					"selected": 4,
+					"selected": 3,
 					"sheets":
 					[
 						{
@@ -589,10 +589,10 @@
 									"translate_tabs_to_spaces": false
 								},
 								"translation.x": 0.0,
-								"translation.y": 3178.0,
+								"translation.y": 3122.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 1,
+							"stack_index": 0,
 							"type": "text"
 						},
 						{
@@ -601,15 +601,15 @@
 							"semi_transient": false,
 							"settings":
 							{
-								"buffer_size": 34279,
+								"buffer_size": 34334,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										5490,
-										5490
+										4658,
+										4658
 									]
 								],
 								"settings":
@@ -618,10 +618,10 @@
 									"translate_tabs_to_spaces": false
 								},
 								"translation.x": 0.0,
-								"translation.y": 2916.0,
+								"translation.y": 12468.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 0,
+							"stack_index": 1,
 							"type": "text"
 						}
 					]
@@ -666,7 +666,7 @@
 			{
 				"height": 0.0
 			},
-			"position": "0,2,3,-32000,-32000,-1,-1,903,-8,3,1592",
+			"position": "0,2,3,-1,-1,-1,-1,903,-8,3,1592",
 			"project": "",
 			"replace":
 			{

@@ -73,6 +73,7 @@ Msn2: string "P L A Y E R  2   V E N C E U !!!"
 
 Letra: var #1		; Contem a letra que foi digitada
 
+
 posNave: var #1			; Contem a posicao atual da Nave
 posAntNave: var #1		; Contem a posicao anterior da Nave
 posNave2: var #1
@@ -166,6 +167,7 @@ main:
 	
 	Loadn R0, #0			; Contador para os Mods	= 0
 	loadn R2, #0			; Para verificar se (mod(c/10)==0
+	
 	
 	call MoveNave_Desenha
 	call MoveNave2_Desenha
@@ -474,8 +476,8 @@ MoveNave_Desenha:	; Desenha caractere da Nave
 	push R1
 	push R2
 	
-	Loadn R1, #'X'	; Nave
-	loadn R2, #1280
+	Loadn R1, #8	; Nave
+	loadn R2, #2048
 	add R1, R1, R2
 	load R0, posNave
 	outchar R1, R0
@@ -494,7 +496,7 @@ MoveNave2_Desenha:	; Desenha caractere da Nave
 	push R1
 	push R2
 	
-	Loadn R1, #'Y'	; Nave
+	Loadn R1, #9	; alien
 	loadn R2, #512
 	add R1, R1, R2
 	load R0, posNave2
@@ -571,10 +573,10 @@ MoveTiro_Apaga:
 	; Compara Se (posAntTiro == posAntNave)
 	load R0, posAntTiro	; R0 = posAnt
 	load R1, posAntNave	; R1 = posAnt
-	loadn R6, #1280
+	loadn R6, #2048
 	cmp r0, r1
 	jne MoveTiro_Apaga_Skip1
-		loadn r5, #'X'		; Se o Tiro passa sobre a Nave, apaga com um X, senao apaga com o cenario 
+		loadn r5, #8		; Se o Tiro passa sobre a Nave, apaga com um X, senao apaga com o cenario 
 		add r5, r5, r6
 		jmp MoveTiro_Apaga_Fim
 		
@@ -617,7 +619,7 @@ MoveTiro2_Apaga:
 	loadn R6, #1280
 	cmp r0, r1
 	jne MoveTiro2_Apaga_Skip1
-		loadn r5, #'Y'		; Se o Tiro passa sobre a Nave, apaga com um X, senao apaga com o cenario 
+		loadn r5, #9		; Se o Tiro passa sobre a Nave, apaga com um X, senao apaga com o cenario 
 		add r5, r5, r6
 		jmp MoveTiro2_Apaga_Fim
 		
@@ -880,6 +882,9 @@ MoveTiro2_Desenha:
 	rts
 
 ;---------------------------------
+
+
+
 
 
 ;********************************************************

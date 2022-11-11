@@ -10,7 +10,7 @@
 		"*.pdf",
 		"*.zip"
 	],
-	"font_size": 11,
+	"font_size": 13,
 	"ignored_packages":
 	[
 		"Vintage"
