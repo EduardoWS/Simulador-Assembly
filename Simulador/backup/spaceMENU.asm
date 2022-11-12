@@ -1400,7 +1400,7 @@ menu:
 	loadn r1, #Msn3
 	loadn r2, #1024
 	call ImprimeStr
-	loadn r0, #1046
+	loadn r0, #966
 	loadn r1, #Msn4
 	loadn r2, #1024
 	call ImprimeStr
@@ -2393,13 +2393,13 @@ MoveTiro_RecalculaPos:
 	;imprime Voce Venceu !!!
 	loadn r0, #526
 	loadn r1, #Msn0
-	loadn r2, #2048
+	loadn r2, #0
 	call ImprimeStr
 	
 	;imprime quer jogar novamente
 	loadn r0, #605
 	loadn r1, #Msn1
-	loadn r2, #2048
+	loadn r2, #0
 	call ImprimeStr
 
 	MoveTiro_RecalculaPos_Boom_Loop:	
@@ -2586,13 +2586,13 @@ MoveTiro2_RecalculaPos:
 	;imprime Voce Venceu !!!
 	loadn r0, #523
 	loadn r1, #Msn6
-	loadn r2, #512
+	loadn r2, #0
 	call ImprimeStr
 	
 	;imprime quer jogar novamente
 	loadn r0, #605
 	loadn r1, #Msn1
-	loadn r2, #512
+	loadn r2, #0
 	call ImprimeStr
 
 	MoveTiro2_RecalculaPos_Boom_Loop:	
