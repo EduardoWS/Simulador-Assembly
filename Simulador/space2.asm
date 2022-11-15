@@ -618,7 +618,7 @@ MoveTiro_RecalculaPos:
 	
 	loadn R1, #40		; Testa condicoes de Contorno 
 	load R2, posTiro
-	mod R1, R0, R1		
+	mod R1, R2, R1		
 	cmp R1, R2			; Se tiro chegou na ultima linha
 	jne MoveTiro_RecalculaPos_Fim
 	

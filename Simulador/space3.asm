@@ -673,6 +673,8 @@ MoveTiro_RecalculaPos:
 	mod R1, R0, R1    ;R1 = R0 % 40
 	cmp R1, R2			; Se tiro chegou na ultima linha
 	jne MoveTiro_RecalculaPos_Fim
+	
+	
 	call MoveTiro_Apaga
 	loadn R0, #0
 	store FlagTiro, R0	; Zera FlagTiro
