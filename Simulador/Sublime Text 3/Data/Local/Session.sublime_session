@@ -450,10 +450,10 @@
 					}
 				},
 				{
-					"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/spaceMENU.asm",
+					"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/spaceGIRAR.asm",
 					"settings":
 					{
-						"buffer_size": 327527,
+						"buffer_size": 328394,
 						"line_ending": "Windows"
 					}
 				},
@@ -498,6 +498,7 @@
 			},
 			"file_history":
 			[
+				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/spaceMENU.asm",
 				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/Nave11.asm",
 				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space.asm",
 				"/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/space3.asm",
@@ -620,8 +621,8 @@
 								"selection":
 								[
 									[
-										14556,
-										14556
+										6765,
+										6662
 									]
 								],
 								"settings":
@@ -630,10 +631,10 @@
 									"translate_tabs_to_spaces": false
 								},
 								"translation.x": 0.0,
-								"translation.y": 12087.0,
+								"translation.y": 5307.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 3,
+							"stack_index": 1,
 							"type": "text"
 						},
 						{
@@ -662,33 +663,34 @@
 								"translation.y": 13380.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 1,
+							"stack_index": 2,
 							"type": "text"
 						},
 						{
 							"buffer": 3,
-							"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/spaceMENU.asm",
+							"file": "/C/Users/berse/Desktop/Faculdade/2º semestre/Organização e Arquitetura de Computadores/Simulador/spaceGIRAR.asm",
 							"semi_transient": false,
 							"settings":
 							{
-								"buffer_size": 327527,
+								"buffer_size": 328394,
 								"regions":
 								{
 								},
 								"selection":
 								[
 									[
-										287122,
-										287122
+										287405,
+										287405
 									]
 								],
 								"settings":
 								{
 									"syntax": "Packages/Assembly ICMC/Assembly ICMC.tmLanguage",
-									"translate_tabs_to_spaces": false
+									"tab_size": 2,
+									"translate_tabs_to_spaces": true
 								},
 								"translation.x": 0.0,
-								"translation.y": 12352.0,
+								"translation.y": 13440.0,
 								"zoom_level": 1.0
 							},
 							"stack_index": 0,
@@ -720,7 +722,7 @@
 								"translation.y": 14967.0,
 								"zoom_level": 1.0
 							},
-							"stack_index": 2,
+							"stack_index": 3,
 							"type": "text"
 						}
 					]
@@ -765,7 +767,7 @@
 			{
 				"height": 0.0
 			},
-			"position": "0,2,1,-32000,-32000,-1,-1,882,435,-18,2035",
+			"position": "0,2,3,-32000,-32000,-1,-1,943,20,43,1620",
 			"project": "",
 			"replace":
 			{
