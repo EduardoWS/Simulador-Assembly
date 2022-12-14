@@ -1,71 +1,5 @@
-;Nave : 
-
-	; ------- TABELA DE CORES -------
-; adicione ao caracter para Selecionar a cor correspondente
-
-; 0 branco							0000 0000
-; 256 marrom						0001 0000
-; 512 verde							0010 0000
-; 768 oliva							0011 0000
-; 1024 azul marinho					0100 0000
-; 1280 roxo							0101 0000
-; 1536 teal							0110 0000
-; 1792 prata						0111 0000
-; 2048 cinza						1000 0000
-; 2304 vermelho						1001 0000
-; 2560 lima							1010 0000
-; 2816 amarelo						1011 0000
-; 3072 azul							1100 0000
-; 3328 rosa							1101 0000
-; 3584 aqua							1110 0000
-; 3840 branco						1111 0000
-
-
-
-	
-;	- Move 3 Objetos com Delays diferentes
-;	- Nao apaga o cenario
-;	- Le teclado para movimentar a Nave
-;	- Declara Tabela de nr. Randoicos
-;	- Le Tabela de nr. Randomico para movimentar o Alien
-;	- Se Tiro ou Alien passar por cima, nao apaga a Nave
-;	- Nao fica piscando, pois so' redezenha se pos != posAnt
-;   - Senario Colorido!!!!!
-;	- Loop principal segue estrutura abaixo:
-
-
-;	Loop:
-;		if (mod(c/10)==0
-;			{	
-;				RecalculaNave (posNave = Teclado...)
-;				If (posNave != posAntNave)
-;				{ 	ApagaNave: Print Tela(posAntNave + posAntNave/40) , posAntNave
-;				 	DesenhaNave  (posAntNave = posNave)
-;				}
-;			}
-;		if (mod(c/5)==0
-;			{	
-;				RecalculaAlien (posAlien = Rand...)
-;				If (posAlien != posAntAlien)
-;				{ 	ApagaAlien: Print Tela(posAntAlien + posAntAlien/40) , posAntAlien
-;				 	DesenhaAlien  (posAntAlien = posAlien)
-;				}
-;			}
-;		if (mod(c/2)==0
-;			{	
-;				RecalculaTiro (posTiro = posTiro + IncTiro...)
-;				If (posTiro != posAntTiro)
-;				{ 	ApagaTiro: Print Tela(posAntTiro + posAntTiro/40) , posAntTiro
-;				 	DesenhaTiro  (posAntTiro = posTiro)
-;				}
-;			}
-;		
-;		Delay
-;		c++
-;		goto Loop
-
-
 jmp main
+
 Msn0: string "V O C E   V E N C E U !!!"
 Msn1: string "Quer jogar novamente? <s/n>"
 
@@ -115,8 +49,10 @@ Rand : var #30			; Tabela de nr. Randomicos entre 0 - 7
 	static Rand + #28, #6
 	static Rand + #29, #0
 
-
-
+VetTiros: var #3
+	static VetTiros + #0, #1200
+	static VetTiros + #1, #1200
+	static VetTiros + #2, #1200
 
 
 
@@ -143,10 +79,9 @@ main:
 	Loadn R0, #1020			
 	store posNave, R0		; Zera Posicao Atual da Nave
 	store posAntNave, R0	; Zera Posicao Anterior da Nave
-	
-	store FlagTiro, R0		; Zera o Flag para marcar que ainda nao Atirou!
 	store posTiro, R0		; Zera Posicao Atual do Tiro
 	store posAntTiro, R0	; Zera Posicao Anterior do Tiro
+	
 	
 	Loadn R0, #100
 	store posAlien, R0		; Zera Posicao Atual do Alien
@@ -154,9 +89,10 @@ main:
 	
 	Loadn R0, #0			; Contador para os Mods	= 0
 	loadn R2, #0			; Para verificar se (mod(c/10)==0
+	store FlagTiro, R0		; Zera o Flag para marcar que ainda nao Atirou!
 
 	Loop:
-	
+	inc
 		loadn R1, #2    ;padrao eh 10
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/10)==0
@@ -167,7 +103,7 @@ main:
 		cmp R1, R2		; if (mod(c/30)==0
 		ceq MoveAlien	; Chama Rotina de movimentacao do Alien
 	
-		loadn R1, #1	;padrao eh 2
+		loadn R1, #2	;padrao eh 2
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/2)==0
 		ceq MoveTiro	; Chama Rotina de movimentacao do Tiro
@@ -237,6 +173,7 @@ MoveNave_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressio
 	push R1
 	push R2
 	push R3
+	push r4
 
 	load R0, posNave
 	
@@ -263,6 +200,7 @@ MoveNave_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressio
 	
   MoveNave_RecalculaPos_Fim:	; Se nao for nenhuma tecla valida, vai embora
 	store posNave, R0
+	pop r4
 	pop R3
 	pop R2
 	pop R1
@@ -303,10 +241,37 @@ MoveNave_RecalculaPos:		; Recalcula posicao da Nave em funcao das Teclas pressio
 	jmp MoveNave_RecalculaPos_Fim	
 	
   MoveNave_RecalculaPos_Tiro:	
-	loadn R1, #1			; Se Atirou:
-	store FlagTiro, R1		; FlagTiro = 1
-	store posTiro, R0		; posTiro = posNave
-	jmp MoveNave_RecalculaPos_Fim	
+  	load r4, FlagTiro
+  	inc r4  			;contador de tiros pra saber quantas vezes o loop tem q rodar
+  	loadn r1, #VetTiros
+  	loadi r2, r1
+  	loadn r3, #1200
+  	cmp r2, r3
+  	jeq MoveNave_RecalculaPos_Tiro_Fim
+  	
+  	inc r4
+  	inc r1
+  	loadi r2, r1
+  	cmp r2, r3
+  	jeq MoveNave_RecalculaPos_Tiro_Fim
+  	
+  	inc r4
+  	inc r1
+  	loadi r2, r1
+  	cmp r2, r3
+  	jeq MoveNave_RecalculaPos_Tiro_Fim
+  	
+  	jmp MoveNave_RecalculaPos_Fim
+  	
+  	MoveNave_RecalculaPos_Tiro_Fim:
+		;loadn R1, #1			; Se Atirou:
+		store FlagTiro, r4		; FlagTiro = 1
+		;store posTiro, R0		; posTiro = posNave
+		storei r0, r1
+		
+		jmp MoveNave_RecalculaPos_Fim
+	
+		
 ;----------------------------------
 MoveNave_Desenha:	; Desenha caractere da Nave
 	push R0
@@ -603,31 +568,34 @@ MoveTiro_RecalculaPos:
 	push R0
 	push R1
 	push R2
-	
 	push R3
+	push r4
 	
 	load R1, FlagTiro	; Se Atirou, movimenta o tiro!
-	loadn R2, #1
-	cmp R1, R2			; If FlagTiro == 1  Movimenta o Tiro
-	jne MoveTiro_RecalculaPos_Fim2	; Se nao vai embora!
+	loadn R2, #0
+	cmp R1, R2			; If FlagTiro != 0  Movimenta o Tiro
+	jeq MoveTiro_RecalculaPos_Fim2	; Se nao vai embora!
 	
-	load R0, posTiro	; TEsta se o Tiro Pegou no Alien
-	load R1, posAlien
-	cmp R0, R1			; IF posTiro == posAlien  BOOM!!
-	jeq MoveTiro_RecalculaPos_Boom
-	
-	loadn R1, #40		; Testa condicoes de Contorno 
-	load R2, posTiro
-	mod R1, R2, R1		
-	cmp R1, R2			; Se tiro chegou na ultima linha
-	jne MoveTiro_RecalculaPos_Fim
-	
-	call MoveTiro_Apaga
-	loadn R0, #0
-	store FlagTiro, R0	; Zera FlagTiro
-	store posTiro, R0	; Zera e iguala posTiro e posAntTiro
-	store posAntTiro, R0
-	jmp MoveTiro_RecalculaPos_Fim2	
+	Loop_MoveTiros:
+		load r4, FlagTiro
+		
+		load R0, posTiro	; TEsta se o Tiro Pegou no Alien
+		load R1, posAlien
+		cmp R0, R1			; IF posTiro == posAlien  BOOM!!
+		jeq MoveTiro_RecalculaPos_Boom
+		
+		loadn R1, #40		; Testa condicoes de Contorno 
+		load R2, posTiro
+		mod R1, R2, R1		
+		cmp R1, R2			; Se tiro chegou na ultima linha
+		jne MoveTiro_RecalculaPos_Fim
+		
+		call MoveTiro_Apaga
+		loadn R0, #0
+		store FlagTiro, R0	; Zera FlagTiro
+		store posTiro, R0	; Zera e iguala posTiro e posAntTiro
+		store posAntTiro, R0
+		jmp MoveTiro_RecalculaPos_Fim2	
 	
   MoveTiro_RecalculaPos_Fim:
 	;inc R0
@@ -639,8 +607,9 @@ MoveTiro_RecalculaPos:
 	store posTiro, R0
 	
   MoveTiro_RecalculaPos_Fim2:	
+  
+  	pop r4
   	pop R3
-  	
 	pop R2
 	pop R1
 	pop R0
